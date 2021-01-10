@@ -2,6 +2,30 @@
 
 ## Below is useful information for working with the Codecard provided by Oracle. 
 
+### Arduino IDE Configuration:
+
+Make sure you have installed the ESP8266 boards and selected the board 'Generic ESP8266 Module'. 
+
+Make sure the rest of the configuration is as follows (the changes from default are highlighted):
+
+- Upload Speed; “115200”
+- CPU Frequency: “80 MHz”
+- Crystal Frequency: “26 MHz”
+- **_Flash Size: “4MB (FS:3MB OTA:~512KB)”_**
+- **_Flash Mode: “DIO”_**
+- Flash Frequency: “40MHz”
+- Reset Method: “dtr (aka nodemcu)”
+- Debug port: “Disabled”
+- Debug Level: “None”
+- IwIP Variant: “v2 Lower Memory”
+- VTables: “Flash”
+- Builtin Led: “2”
+- Erase Flash: “Only Sketch”
+- Port: This is the port that shows up once you turn on the CodeCard and press the 'A' button
+- Programmer: “ArduinoISP”  
+
+#### Important: To make sure the board is recognised when uploading, make sure you press the 'A' button when you turn the board on!
+
 ## Notes for writing programs:
 
 ### Code must include the following line before ```void setup()``` :
