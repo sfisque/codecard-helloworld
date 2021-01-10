@@ -26,14 +26,14 @@ Make sure the rest of the configuration is as follows (the changes from default 
 
 #### Important: To make sure the board is recognised when uploading, make sure you press the 'A' button when you turn the board on!
 
-## Notes for writing programs:
+## Notes for Writing Programs:
 
 ### Code must include the following line before ```void setup()``` :
 ```c++
 GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D3*/ 0, /*RST=D4*/ 4, /*BUSY=D2*/ 5)); // 2.7" b/w 264x176
 ```
 
-### To set font:
+### To Set Font:
 1. Go the the sketchbook folder where the library is installed (can be found in Arduino preferences)
 2. Find the ```libraries``` folder
 3. find the ```Adafruit_GFX_Library``` folder
@@ -48,15 +48,15 @@ GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D
 display.setFont(&FONT_NAME);
 ```
 
-### To set cursor position:
-#### Note: The cursor automtically moves to the end of any text you display so it doesn't overlap
+### To Set Cursor Position:
+#### Note: The cursor automtically moves to the end of any text you display so it doesn't overlap, as well as wraps at the edge of the screen
 
 ```c++
 display.setCursor(x,y);
 ```
 Valid ranges are: x: 0 - 264, y: 0 - 176
 
-### Display text:
+### Display Text:
 Once the position, font and colour are configured, text can be displayed with:
 ```c++
 display.print('TEXT HERE');
@@ -66,7 +66,7 @@ display.print('TEXT HERE');
 - GxEPD_WHITE
 - GxEPD_BLACK
 
-### Fill screen / blank with a colour:
+### Fill Screen / Blank with a Colour:
 ```c++
 display.fillScreen(<COLOR>);
 ```
