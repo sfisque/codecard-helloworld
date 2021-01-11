@@ -4,10 +4,12 @@
 
 ### Arduino IDE Configuration:
 
-Make sure you have installed the ESP8266 boards and selected the board 'Generic ESP8266 Module'. 
+Make sure you have:
+- Installed the ESP8266 boards 
+- Installed the GxEPD2 library and it's dependencies
+- Selected the board 'Generic ESP8266 Module'. 
 
-Make sure the rest of the configuration is as follows (the changes from default are highlighted):
-
+Configure the board as per the information below (the changes from default are highlighted):
 - Upload Speed; “115200”
 - CPU Frequency: “80 MHz”
 - Crystal Frequency: “26 MHz”
