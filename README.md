@@ -1,4 +1,4 @@
-# Codecard Session Resources
+# Codecard Resources
 
 ## Below is useful information for working with the Codecard provided by Oracle. 
 
