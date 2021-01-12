@@ -73,3 +73,10 @@ display.print('TEXT HERE');
 display.fillScreen(<COLOR>);
 ```
 
+### Digital pin (top left back of code card)
+
+The D8 pin maps to pin 15 on the ESP board.
+Can set the pin to an digital output pin by:
+```c++
+pinMode(other_led, OUTPUT);
+```
