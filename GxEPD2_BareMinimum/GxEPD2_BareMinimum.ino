@@ -18,10 +18,9 @@ GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D
 
 void setup()
 {
-  display.init();
-  //display.hibernate(); //No idea what this does
-  display.setRotation(3); //Sets the display to be the right orientation. 
-  // comment out next line to have no or minimal Adafruit_GFX code
+  display.init(); //Start display
+  display.setRotation(3); //Sets the display to be the right orientation. Range is 0 - 3
+  //below section is required
   display.firstPage();
   do{
   //PUT YOUR CODE HERE
