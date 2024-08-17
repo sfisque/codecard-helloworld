@@ -27,34 +27,83 @@ GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D
 // see GxEPD2_wiring_examples.h for wiring suggestions, the wiring corresponding to the constructor examples.
 // if you use a different wiring, you need to adapt the constructor parameters!
 
+unsigned long startTime;
+unsigned long currentTime;
+
+#define WAKE_PIN 16
+#define BUTTON1_PIN 10
+#define BUTTON2_PIN 12
+
+
 void setup()
 {
-  display.init();
-  helloWorld();
-  display.hibernate();
+  startTime = millis();
+
+    pinMode( WAKE_PIN, OUTPUT );
+    pinMode( BUTTON1_PIN, INPUT_PULLUP );
+    pinMode( BUTTON2_PIN, INPUT_PULLUP );
+
+    display.init();
+  // helloWorld();
+//  display.hibernate();
+
+    display.setFullWindow();
+    display.firstPage();
+    display.setRotation( 3 );
+
+    print_message( "Starting Up" );
 }
 
 const char HelloWorld[] = "Hello World!";
 
-void helloWorld()
+void print_message( char* msg )
 {
-  display.setRotation(0);
+  int16_t tbx, tby; uint16_t tbw, tbh;
+
   display.setFont(&FreeMonoBold9pt7b);
   display.setTextColor(GxEPD_BLACK);
-  int16_t tbx, tby; uint16_t tbw, tbh;
-  display.getTextBounds(HelloWorld, 0, 0, &tbx, &tby, &tbw, &tbh);
+  display.getTextBounds( msg, 0, 0, &tbx, &tby, &tbw, &tbh);
+
   // center the bounding box by transposition of the origin:
   uint16_t x = ((display.width() - tbw) / 2) - tbx;
   uint16_t y = ((display.height() - tbh) / 2) - tby;
-  display.setFullWindow();
+
+  // display.setFullWindow();
   display.firstPage();
+
   do
   {
-    display.fillScreen(GxEPD_WHITE);
-    display.setCursor(x, y);
-    display.print(HelloWorld);
+    // display.setPartialWindow(tbx, tby, tbw, tbh );
+    // display.fillScreen(GxEPD_WHITE);
+
+    
+    display.setCursor( x, y );
+    display.print( msg );
   }
-  while (display.nextPage());
+  while( display.nextPage() );
 }
 
-void loop() {};
+
+void shutdown() 
+{
+    display.powerOff();
+    // Serial.println("Shuting down...");
+    delay(100);
+    digitalWrite( WAKE_PIN, LOW );
+}
+
+
+void loop() 
+{
+  currentTime = millis();
+
+  if( currentTime - startTime > 60000 )
+    {
+      print_message( "Shutting Down" );
+      delay( 200 );
+      shutdown();
+    }
+
+  delay( 5000 );
+  print_message( "hello world" );
+};
