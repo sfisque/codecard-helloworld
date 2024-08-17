@@ -5,7 +5,7 @@
 
 #define ENABLE_GxEPD2_GFX 0
 #include <GxEPD2_BW.h> // including both doesn't hurt
-#include <GxEPD2_3C.h> // including both doesn't hurt
+// #include <GxEPD2_3C.h> // including both doesn't hurt
 #include <Fonts/FreeMonoBold9pt7b.h>
 
 // copy the constructor for your e-paper from GxEPD2_Example.ino (and for AVR boards needed #defines for MAX_HEIGHT).
@@ -30,80 +30,81 @@ GxEPD2_BW<GxEPD2_270, GxEPD2_270::HEIGHT> display(GxEPD2_270(/*CS=D8*/ 2, /*DC=D
 unsigned long startTime;
 unsigned long currentTime;
 
+int btn1State = LOW;
+int btn2State = LOW;
+
 #define WAKE_PIN 16
 #define BUTTON1_PIN 10
 #define BUTTON2_PIN 12
 
 
+void print_message( char* msg )
+{
+    display.setRotation( 3 );
+    display.setFont( &FreeMonoBold9pt7b );
+    display.setTextColor( GxEPD_BLACK );
+    int16_t tbx, tby; uint16_t tbw, tbh;
+    display.getTextBounds( msg, 0, 0, &tbx, &tby, &tbw, &tbh);
+    // center the bounding box by transposition of the origin:
+    uint16_t x = ((display.width() - tbw) / 2) - tbx;
+    uint16_t y = ((display.height() - tbh) / 2) - tby;
+
+    display.setFullWindow();
+    display.firstPage();
+    
+    // do
+    // {
+        display.fillScreen( GxEPD_WHITE );
+        display.setCursor( x, y );
+        display.println( msg );
+    // }
+    // while ( display.nextPage() );
+
+    display.display();
+}
+
+
 void setup()
 {
-  startTime = millis();
+    startTime = millis();
+
+    display.init();
 
     pinMode( WAKE_PIN, OUTPUT );
     pinMode( BUTTON1_PIN, INPUT_PULLUP );
     pinMode( BUTTON2_PIN, INPUT_PULLUP );
 
-    display.init();
-  // helloWorld();
-//  display.hibernate();
+    print_message( "Start Up" );
 
-    display.setFullWindow();
-    display.firstPage();
-    display.setRotation( 3 );
+    int running = 1;
 
-    print_message( "Starting Up" );
-}
+    while( running )
+    {
+        yield();
 
-const char HelloWorld[] = "Hello World!";
+        btn1State = digitalRead(BUTTON1_PIN);
 
-void print_message( char* msg )
-{
-  int16_t tbx, tby; uint16_t tbw, tbh;
+        if( btn1State == HIGH )
+        {
+            print_message( "Button A pushed" );
+        }
+        else
+        {
+            print_message( "Waiting...." );
+        }
+    }
 
-  display.setFont(&FreeMonoBold9pt7b);
-  display.setTextColor(GxEPD_BLACK);
-  display.getTextBounds( msg, 0, 0, &tbx, &tby, &tbw, &tbh);
+    // delay( 1000 );
 
-  // center the bounding box by transposition of the origin:
-  uint16_t x = ((display.width() - tbw) / 2) - tbx;
-  uint16_t y = ((display.height() - tbh) / 2) - tby;
+    // print_message( "Continuing Starting Up" );
 
-  // display.setFullWindow();
-  display.firstPage();
+    // delay( 1000 );
 
-  do
-  {
-    // display.setPartialWindow(tbx, tby, tbw, tbh );
-    // display.fillScreen(GxEPD_WHITE);
-
-    
-    display.setCursor( x, y );
-    display.print( msg );
-  }
-  while( display.nextPage() );
-}
-
-
-void shutdown() 
-{
-    display.powerOff();
-    // Serial.println("Shuting down...");
-    delay(100);
-    digitalWrite( WAKE_PIN, LOW );
+    // print_message( "Finishing Starting Up" );
 }
 
 
 void loop() 
 {
-  currentTime = millis();
-
-  if( currentTime - startTime > 60000 )
-    {
-      print_message( "Shutting Down" );
-      delay( 200 );
-      shutdown();
-    }
-
-  delay( 5000 );
-  print_message( "hello world" );
+      // }
 };
